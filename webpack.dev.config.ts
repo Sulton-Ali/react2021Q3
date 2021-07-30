@@ -32,6 +32,14 @@ const config: Configuration = {
           },
         },
       },
+      {
+        test: /\.s[ca]ss$/i,
+        use: ["style-loader", "css-loader", "sass-loader"],
+      },
+      {
+        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        type: "asset/resource",
+      },
     ],
   },
   resolve: {
@@ -46,8 +54,8 @@ const config: Configuration = {
       async: false,
     }),
     new ESLintPlugin({
-        extensions: ["js", "jsx", "ts", "tsx"],
-      }),
+      extensions: ["js", "jsx", "ts", "tsx"],
+    }),
   ],
   devtool: "inline-source-map",
   devServer: {
