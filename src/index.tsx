@@ -1,19 +1,11 @@
-import React from "react";
-import ReactDOM from "react-dom";
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-import "./index.scss";
-import typescriptLogo from "./images/typescript.png";
-
-const App = () => (
-  <h1>
-    My React and TypeScript App!! {new Date().toLocaleDateString("en-EN")}
-    <img src={typescriptLogo} alt="logo" />
-  </h1>
-);
-
+import './index.scss';
+import App from './components/app/app';
 ReactDOM.render(
   <React.StrictMode>
     <App />
   </React.StrictMode>,
-  document.getElementById("root")
+  document.getElementById('root'),
 );
