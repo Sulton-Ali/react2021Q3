@@ -2,12 +2,12 @@ import React from 'react';
 
 import './searchbar.scss';
 
-interface searchbarProps {
+interface ISearchbarProps {
   buttonText: string;
   placeholder?: string;
 }
 
-const SearchBar = (props: searchbarProps): JSX.Element => {
+const SearchBar = (props: ISearchbarProps): JSX.Element => {
   return (
     <div className="searchbar">
       <div className="searchbar__content">
