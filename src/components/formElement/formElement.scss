@@ -1,0 +1,114 @@
+.form-element {
+  width: 100%;
+  padding: 10px 0;
+
+  &__label {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &.checkbox {
+    .form-element__label {
+      flex-direction: row;
+      align-items: center;
+
+      p {
+        margin-left: 10px;
+      }
+    }
+  }
+
+  .dropdown {
+    &__list {
+      position: absolute;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      background-color: white;
+      padding: 10px 0;
+      border-radius: 5px;
+      transition: all 300ms linear;
+      overflow: hidden;
+
+      &--hidden {
+        opacity: 0;
+        height: 0px;
+        width: 0px;
+        padding: 0;
+      }
+    }
+
+    &__selected {
+      padding: 8px 16px;
+      background-color: white;
+      border-radius: 20px;
+      font-size: 12px;
+      line-height: 20px;
+      margin-bottom: 5px;
+      cursor: pointer;
+    }
+
+    &__item {
+      padding: 3px 6px 3px 20px;
+      font-size: 12px;
+      line-height: 20px;
+      border-bottom: 1px solid rgba($color: gray, $alpha: 0.5);
+      cursor: pointer;
+
+      &:hover {
+        background-color: teal;
+        color: white;
+      }
+
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+  }
+
+  .switcher {
+    & .form-element__label {
+      flex-direction: row !important;
+    }
+    &__body {
+      padding: 0 3px;
+      display: flex;
+      align-items: center;
+      width: 60px;
+      height: 30px;
+      border-radius: 20px;
+      background-color: white;
+      box-shadow: inset 0 0 3px 6px rgba($color: gray, $alpha: 0.3);
+
+      input {
+        opacity: 0;
+        width: 1px;
+        height: 1px;
+      }
+    }
+
+    &__circle-wrapper {
+      width: 100%;
+      background-color: rgba($color: red, $alpha: 0.4);
+      border-radius: 20px;
+      transition: all 0.3s linear;
+
+      &.checked {
+        background-color: rgba($color: green, $alpha: 0.4);
+      }
+    }
+
+    &__circle {
+      width: 24px;
+      height: 24px;
+      border-radius: 20px;
+      background-color: teal;
+      transition: transform 0.3s linear;
+
+      &.checked {
+        transform: translateX(29px);
+      }
+    }
+  }
+}

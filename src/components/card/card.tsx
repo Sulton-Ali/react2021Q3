@@ -1,6 +1,7 @@
 import React from 'react';
 
 import './card.scss';
+import cardImage from '../../images/beautiful_scenery_05.jpeg';
 
 export interface ICard {
   imgUrl: string;
@@ -15,6 +16,59 @@ export interface ICard {
 export interface ICardProps {
   item: ICard;
 }
+
+export const cards: Array<ICard> = [
+  {
+    imgUrl: cardImage,
+    title: 'Card title',
+    description:
+      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti, aperiam quia veritatis reprehenderit quisquam aut amet animi. Beatae, ad aliquam.',
+    author: 'John Doe',
+    tags: ['Design', 'Sport', 'Animation'],
+    likes: 543,
+    views: 10000,
+  },
+  {
+    imgUrl: cardImage,
+    title: 'Card title',
+    description:
+      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti, aperiam quia veritatis reprehenderit quisquam aut amet animi. Beatae, ad aliquam.',
+    author: 'John Doe',
+    tags: ['Design', 'Sport', 'Animation'],
+    likes: 543,
+    views: 10000,
+  },
+  {
+    imgUrl: cardImage,
+    title: 'Card title',
+    description:
+      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti, aperiam quia veritatis reprehenderit quisquam aut amet animi. Beatae, ad aliquam.',
+    author: 'John Doe',
+    tags: ['Design', 'Sport', 'Animation'],
+    likes: 543,
+    views: 10000,
+  },
+  {
+    imgUrl: cardImage,
+    title: 'Card title',
+    description:
+      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti, aperiam quia veritatis reprehenderit quisquam aut amet animi. Beatae, ad aliquam.',
+    author: 'John Doe',
+    tags: ['Design', 'Sport', 'Animation'],
+    likes: 543,
+    views: 10000,
+  },
+  {
+    imgUrl: cardImage,
+    title: 'Card title',
+    description:
+      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti, aperiam quia veritatis reprehenderit quisquam aut amet animi. Beatae, ad aliquam.',
+    author: 'John Doe',
+    tags: ['Design', 'Sport', 'Animation'],
+    likes: 543,
+    views: 10000,
+  },
+];
 
 const Card = (props: ICardProps): JSX.Element => {
   const {item} = props;
