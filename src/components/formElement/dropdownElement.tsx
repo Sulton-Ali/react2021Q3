@@ -1,15 +1,7 @@
 import React, {useState} from 'react';
+import {FormElementProps} from './formElement';
 
-export type DropdownElementProps = {
-  label: string;
-  type: string;
-  items?: string[];
-};
-
-export default function DropdownElement(
-  props: DropdownElementProps,
-): JSX.Element {
-  const [selected, setSelected] = useState('Choose gender');
+export default function DropdownElement(props: FormElementProps): JSX.Element {
   const [listOpen, setListOpen] = useState(false);
 
   return (
@@ -17,7 +9,7 @@ export default function DropdownElement(
       <label className="form-element__label">
         <p>{props.label}</p>
         <div className="dropdown__selected" onClick={() => setListOpen(true)}>
-          {selected}
+          {props.value ? props.value : 'Choose gender'}
         </div>
         <div style={{position: 'relative'}}>
           <div
@@ -29,8 +21,8 @@ export default function DropdownElement(
                 className="dropdown__item"
                 key={idx}
                 onClick={() => {
-                  setSelected(item);
                   setListOpen(false);
+                  props.changeHandler(item);
                 }}>
                 {item}
               </div>

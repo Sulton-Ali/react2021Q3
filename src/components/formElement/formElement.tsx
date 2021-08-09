@@ -10,7 +10,9 @@ import SwitcherElement from './switcherElement';
 export type FormElementProps = {
   label: string;
   type: string;
-  items?: string[];
+  value: string | boolean;
+  items?: string[] | undefined;
+  changeHandler: (value: string | boolean) => void;
 };
 export const FormElementTypeConstants = {
   TEXT: 'TEXT',

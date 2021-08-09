@@ -4,7 +4,8 @@ import './form.scss';
 
 interface IFormProps {
   title?: string;
-  elements: FormElementProps[];
+  elements: Array<FormElementProps>;
+  onSubmit: () => void;
 }
 
 const Form = (props: IFormProps): JSX.Element => {
@@ -15,6 +16,12 @@ const Form = (props: IFormProps): JSX.Element => {
         {props.elements?.map((el, idx) => (
           <FormElement {...el} key={idx} />
         ))}
+
+        <div className="form__buttons">
+          <button type="button" className="btn" onClick={props.onSubmit}>
+            Submit
+          </button>
+        </div>
       </div>
     </form>
   );

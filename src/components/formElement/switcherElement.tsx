@@ -1,30 +1,28 @@
-import React, {useState} from 'react';
+import React from 'react';
+import {FormElementProps} from './formElement';
 
-export type SwitcherElementProps = {
-  type: string;
-  label: string;
-};
-
-export default function SwitcherElement(
-  props: SwitcherElementProps,
-): JSX.Element {
-  const [checked, setChecked] = useState(false);
-
+export default function SwitcherElement(props: FormElementProps): JSX.Element {
   return (
     <div className="form-element switcher">
       <label className="form-element__label">
         <div className="switcher__body">
           <input
-            type="checkbox"
-            onChange={(evt) => setChecked(evt.target.checked)}
+            type="radio"
+            onClick={() => {
+              props.changeHandler(!props.value);
+            }}
           />
           <div
-            className={`switcher__circle-wrapper ${checked ? 'checked' : ''}`}>
+            className={`switcher__circle-wrapper ${
+              props.value ? 'checked' : ''
+            }`}>
             <div
-              className={`switcher__circle ${checked ? 'checked' : ''}`}></div>
+              className={`switcher__circle ${
+                props.value ? 'checked' : ''
+              }`}></div>
           </div>
         </div>
-        <p>{props.label}</p>
+        <span>{props.label}</span>
       </label>
     </div>
   );
