@@ -9,7 +9,7 @@ export default function DropdownElement(props: FormElementProps): JSX.Element {
       <label className="form-element__label">
         <p>{props.label}</p>
         <div className="dropdown__selected" onClick={() => setListOpen(true)}>
-          {props.value ? props.value : 'Choose gender'}
+          {props.value ? props.value : 'Выберите пол'}
         </div>
         <div style={{position: 'relative'}}>
           <div
