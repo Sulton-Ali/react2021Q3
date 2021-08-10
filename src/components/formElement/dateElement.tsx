@@ -16,6 +16,7 @@ export default function DateElement(props: FormElementProps): JSX.Element {
             if (!Validator.dateValidator(evt.target.value)) {
               setError('Дата должен быть меншее чем сегодняшний и не пустым');
             } else {
+              setError('');
             }
             props.changeHandler(evt.target.value);
           }}

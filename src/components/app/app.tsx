@@ -6,6 +6,7 @@ import {State, User} from '../../models/stateModels';
 
 import './app.scss';
 import {Validator} from '../../helpers/validator';
+import UserCardWrapper from '../userCardWrapper/userCardWrapper';
 
 const initialState: State = {
   firstName: '',
@@ -88,7 +89,7 @@ export default class App extends Component {
           }),
       },
       {
-        label: 'Женат/замужем ?',
+        label: 'Женат/замужем?',
         value: this.state.married,
         type: FormElementTypeConstants.SWITCHER,
         changeHandler: (value: string | boolean): void =>
@@ -97,7 +98,7 @@ export default class App extends Component {
           }),
       },
       {
-        label: 'Имеется ли детей',
+        label: 'Имеется ли детей?',
         type: FormElementTypeConstants.CHECKBOX,
         value: this.state.haveChildren,
         changeHandler: (value: string | boolean): void =>
@@ -110,6 +111,7 @@ export default class App extends Component {
       <div className="app">
         <SearchBar buttonText="Search" placeholder="Enter search text" />
         <Form title="Form" elements={formElements} onSubmit={this.onSubmit} />
+        <UserCardWrapper users={this.state.users} />
       </div>
     );
   }
