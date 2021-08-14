@@ -1,0 +1,19 @@
+.form {
+  max-width: 600px;
+  padding: 30px;
+  margin: 50px auto;
+  border-radius: 20px;
+  box-shadow: 0 0 10px 5px rgba($color: white, $alpha: 0.3);
+  color: white;
+
+  &__title {
+    text-align: center;
+  }
+
+  &__buttons {
+    .btn {
+      color: gray;
+      font-weight: 700;
+    }
+  }
+}
