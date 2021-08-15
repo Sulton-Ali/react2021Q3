@@ -1,4 +1,11 @@
-import {Response} from './newsApiServiceTypes';
+import {Response, Error} from './newsApiServiceTypes';
+
+export const mockError: Error = {
+  status: 'error',
+  code: 'apiKeyInvalid',
+  message:
+    'Your API key is invalid or incorrect. Check your key, or go to https://newsapi.org to create a free API key.',
+};
 
 export const mockResponse: Response = {
   status: 'ok',

@@ -5,18 +5,29 @@ import {NewsCardProps, NewsCardWrapperProps} from '../../models/newsModels';
 import './newsCard.scss';
 
 export function NewsCardWrapper(props: NewsCardWrapperProps): JSX.Element {
+  const articles = props.data.articles;
+  const error = props.error;
+  let errorContent = null;
+
+  if (error?.status) {
+    errorContent = <div className="news-card-wrapper">{error.message}</div>;
+  }
   return (
     <div className="news-card-wrapper">
-      <div className="news-card-wrapper__body">
-        {props.articles.map((article, idx) => (
-          <NewsCard article={article} key={idx} />
-        ))}
-      </div>
+      {errorContent && errorContent}
+      {props.loading && <div>Загрузка...</div>}
+      {!errorContent && !props.loading && (
+        <div className="news-card-wrapper__body">
+          {articles.map((article, idx) => (
+            <NewsCard article={article} key={idx} />
+          ))}
+        </div>
+      )}
     </div>
   );
 }
 
-export default function NewsCard(props: NewsCardProps): JSX.Element {
+export function NewsCard(props: NewsCardProps): JSX.Element {
   const article = props.article;
   return (
     <div className="news-card">

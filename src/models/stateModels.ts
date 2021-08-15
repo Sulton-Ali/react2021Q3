@@ -1,16 +1,7 @@
-export type Errors = {
-  [key: string]: string;
-};
+import {Error, Response} from '../services/newsApiService/newsApiServiceTypes';
 
-export type User = {
-  firstName: string;
-  lastName: string;
-  dateOfBirth: string;
-  gender: string;
-  married: boolean;
-  haveChildren: boolean;
-};
-
-export type State = User & {
-  users: User[];
+export type AppState = {
+  data: Response;
+  error: Error;
+  loading: boolean;
 };

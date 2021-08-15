@@ -1,15 +1,31 @@
 import React, {useState} from 'react';
-import {FormElementProps} from './formElement';
 
-export default function DropdownElement(props: FormElementProps): JSX.Element {
+import './dropdownElement.scss';
+
+export type DropdownItem = {
+  key: string;
+  value: string;
+};
+
+export type DropdownElementProps = {
+  label: string;
+  placeholder: string;
+  value: string;
+  items: DropdownItem[];
+  changeHandler: (value: string) => void;
+};
+
+export default function DropdownElement(
+  props: DropdownElementProps,
+): JSX.Element {
   const [listOpen, setListOpen] = useState(false);
 
   return (
-    <div className="form-element dropdown">
-      <label className="form-element__label">
-        <p>{props.label}</p>
+    <div className="dropdown">
+      <label className="dropdown__label">
+        <p className="dropdown__text">{props.label}</p>
         <div className="dropdown__selected" onClick={() => setListOpen(true)}>
-          {props.value ? props.value : 'Выберите пол'}
+          {props.value ? props.value : props.placeholder}
         </div>
         <div style={{position: 'relative'}}>
           <div
@@ -22,9 +38,9 @@ export default function DropdownElement(props: FormElementProps): JSX.Element {
                 key={idx}
                 onClick={() => {
                   setListOpen(false);
-                  props.changeHandler(item);
+                  props.changeHandler(item.value);
                 }}>
-                {item}
+                {item.value}
               </div>
             ))}
           </div>
