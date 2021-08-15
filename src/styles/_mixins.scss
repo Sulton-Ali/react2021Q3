@@ -1,0 +1,25 @@
+@import './constants';
+
+@mixin primaryFont {
+  font-size: $primaryFontSize;
+  line-height: $primaryLineHeight;
+  font-weight: 700;
+}
+
+@mixin secondaryFont {
+  font-size: $secondaryFontSize;
+  line-height: $secondaryLineHeight;
+  font-weight: 700;
+}
+
+@mixin contentFont {
+  font-size: $contentFontSize;
+  line-height: $contentLineHeight;
+  font-weight: 500;
+}
+
+@mixin smallFont {
+  font-size: $fontSize;
+  line-height: $lineHeight;
+  font-weight: 400;
+}
