@@ -1,24 +1,32 @@
-// const BASE_URL = '';
-// const API_KEY = '4fb903a2fd544303a68ef6d8fb1d5709';
-
-// import {mockResponse, mockError} from './mockData';
+import {IFilter} from '../../models/stateModels';
+import {languages} from '../../helpers/constants';
 
 export class NewsApiService {
   private API_KEY = '4fb903a2fd544303a68ef6d8fb1d5709';
   private BASE_URL = 'https://newsapi.org/v2/everything';
 
-  getNews(title: string): Promise<Response> {
-    //   const randomNumber = Math.random();
-    //   console.log(randomNumber);
-
-    //   let result: Response | Error;
-    //   if (randomNumber <= 0.7) {
-    //     result = mockResponse;
-    //   } else {
-    //     result = mockError;
-    //   }
-    //   return result;
-    // }
+  getNews(title: string, filter: IFilter): Promise<Response> {
+    let filterQuery = '';
+    if (filter.language) {
+      const lang = languages.find(
+        (lang) => lang.value === filter?.language,
+      )?.key;
+      filterQuery += `&language=${lang}`;
+    }
+    if (filter.sortType) {
+      filterQuery += `&sortBy=${filter.sortType}`;
+    }
+    if (filter.from) {
+      filterQuery += `&from=${filter.from}`;
+    }
+    if (filter.to) {
+      filterQuery += `&to=${filter.to}`;
+    }
+    if (filterQuery) {
+      return fetch(
+        `${this.BASE_URL}?q=${title}${filterQuery}&apiKey=${this.API_KEY}`,
+      );
+    }
     return fetch(`${this.BASE_URL}?q=${title}&apiKey=${this.API_KEY}`);
   }
 }

@@ -5,3 +5,10 @@ export type AppState = {
   error: Error;
   loading: boolean;
 };
+
+export interface IFilter {
+  language: string;
+  sortType: string;
+  from: string;
+  to: string;
+}

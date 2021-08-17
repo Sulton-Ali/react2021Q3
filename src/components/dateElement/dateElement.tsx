@@ -15,7 +15,7 @@ export default function DateElement(props: DateElementProps): JSX.Element {
   return (
     <div className="date-element">
       <label className="date-element__label">
-        <p>{props.label}</p>
+        <p className="date-element__text">{props.label}</p>
         <input
           type="date"
           className="input"

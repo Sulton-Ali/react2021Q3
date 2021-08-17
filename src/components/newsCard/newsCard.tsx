@@ -1,6 +1,7 @@
 import React from 'react';
 import {dateFormat} from '../../helpers/format';
 import {NewsCardProps, NewsCardWrapperProps} from '../../models/newsModels';
+import defaultImage from '../../assets/images/default_card_image.jpg';
 
 import './newsCard.scss';
 
@@ -32,11 +33,19 @@ export function NewsCard(props: NewsCardProps): JSX.Element {
   return (
     <div className="news-card">
       <div className="news-card__image-wrapper">
-        <img
-          src={article.urlToImage}
-          alt={article.source.name}
-          className="news-card__image"
-        />
+        {article.urlToImage ? (
+          <img
+            src={article.urlToImage}
+            alt={article.source.name}
+            className="news-card__image"
+          />
+        ) : (
+          <img
+            src={defaultImage}
+            alt="default logo"
+            className="news-card__image"
+          />
+        )}
       </div>
       <div className="news-card__content">
         <h3 className="news-card__title">{article.title}</h3>
