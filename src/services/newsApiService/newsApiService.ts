@@ -1,11 +1,13 @@
 import {IFilter} from '../../models/stateModels';
 import {languages} from '../../helpers/constants';
+import {NewParams} from '../../models/newsModels';
 
 export class NewsApiService {
   private API_KEY = '4fb903a2fd544303a68ef6d8fb1d5709';
   private BASE_URL = 'https://newsapi.org/v2/everything';
 
-  getNews(title: string, filter: IFilter): Promise<Response> {
+  getNews(title: string, params: NewParams): Promise<Response> {
+    const filter = params.filter;
     let filterQuery = '';
     if (filter.language) {
       const lang = languages.find(
@@ -21,6 +23,9 @@ export class NewsApiService {
     }
     if (filter.to) {
       filterQuery += `&to=${filter.to}`;
+    }
+    if (params.page) {
+      filterQuery += `&page=${params.page}`;
     }
     if (filterQuery) {
       return fetch(

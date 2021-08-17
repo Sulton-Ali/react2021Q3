@@ -1,9 +1,11 @@
 import React from 'react';
+import Lottie from 'react-lottie-player';
 import {dateFormat} from '../../helpers/format';
 import {NewsCardProps, NewsCardWrapperProps} from '../../models/newsModels';
 import defaultImage from '../../assets/images/default_card_image.jpg';
 
 import './newsCard.scss';
+import loadingLottie from '../../assets/lotties/loading.json';
 
 export function NewsCardWrapper(props: NewsCardWrapperProps): JSX.Element {
   const articles = props.data.articles;
@@ -11,12 +13,27 @@ export function NewsCardWrapper(props: NewsCardWrapperProps): JSX.Element {
   let errorContent = null;
 
   if (error?.status) {
-    errorContent = <div className="news-card-wrapper">{error.message}</div>;
+    errorContent = (
+      <div className="news-card-wrapper__error">{error.message}</div>
+    );
   }
   return (
     <div className="news-card-wrapper">
       {errorContent && errorContent}
-      {props.loading && <div>Загрузка...</div>}
+      {props.loading && (
+        <div className="news-card-wrapper__loading">
+          <Lottie
+            loop
+            play
+            animationData={loadingLottie}
+            style={{
+              width: 100,
+              height: 100,
+              alignSelf: 'center',
+            }}
+          />
+        </div>
+      )}
       {!errorContent && !props.loading && (
         <div className="news-card-wrapper__body">
           {articles.map((article, idx) => (

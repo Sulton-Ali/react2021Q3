@@ -16,4 +16,11 @@ export class Validator {
     }
     return true;
   }
+
+  static numberValidator(value: string): boolean {
+    const regex = /^[0-9]*$/;
+
+    const valid = Boolean(value.match(regex));
+    return valid;
+  }
 }

@@ -71,61 +71,61 @@ const SearchBar = (props: ISearchbarProps): JSX.Element => {
         <h1 className="searchbar__logo-text">News</h1>
       </div>
       <div className="searchbar__content">
-        <div className="searchbar__icon">
-          <Lottie
-            loop
-            play
-            animationData={searchLottie}
-            style={{
-              width: 25,
-              height: 25,
-              alignSelf: 'center',
+        <div className="searchbar__input">
+          <div className="searchbar__icon">
+            <Lottie
+              loop
+              play
+              animationData={searchLottie}
+              style={{
+                width: 25,
+                height: 25,
+                alignSelf: 'center',
+              }}
+            />
+          </div>
+          <input
+            className="input"
+            type="text"
+            name="search"
+            id="search"
+            placeholder={props.placeholder}
+            value={searchValue}
+            onChange={(evt) => setSearchValue(evt.target.value)}
+            onKeyPress={(evt) => {
+              if (evt.key.toUpperCase() === 'ENTER') {
+                const filterObj = getFilterObj();
+                props.onSearch(searchValue, filterObj);
+              }
             }}
           />
         </div>
-        <input
-          className="input"
-          type="text"
-          name="search"
-          id="search"
-          placeholder={props.placeholder}
-          value={searchValue}
-          onChange={(evt) => setSearchValue(evt.target.value)}
-          onKeyPress={(evt) => {
-            if (evt.key.toUpperCase() === 'ENTER') {
+        <div className="searchbar__buttons">
+          <button
+            type="button"
+            className="btn"
+            onClick={() => {
               const filterObj = getFilterObj();
               props.onSearch(searchValue, filterObj);
-              setSearchValue('');
-              resetFilter();
-            }
-          }}
-        />
-        <button
-          type="button"
-          className="btn"
-          onClick={() => {
-            const filterObj = getFilterObj();
-            props.onSearch(searchValue, filterObj);
-            setSearchValue('');
-            resetFilter();
-          }}>
-          {props.buttonText}
-        </button>
-        <button
-          type="button"
-          className={`btn filter-button ${openFilter ? 'btn--active' : ''}`}
-          onClick={() => setOpenFilter(!openFilter)}>
-          <Lottie
-            loop
-            play
-            animationData={filterLottie}
-            style={{
-              width: 15,
-              height: 15,
-              alignSelf: 'center',
-            }}
-          />
-        </button>
+            }}>
+            {props.buttonText}
+          </button>
+          <button
+            type="button"
+            className={`btn filter-button ${openFilter ? 'btn--active' : ''}`}
+            onClick={() => setOpenFilter(!openFilter)}>
+            <Lottie
+              loop
+              play
+              animationData={filterLottie}
+              style={{
+                width: 15,
+                height: 15,
+                alignSelf: 'center',
+              }}
+            />
+          </button>
+        </div>
       </div>
 
       <Spring from={openStyles} to={openFilter ? openStyles : closedStyles}>

@@ -4,6 +4,8 @@ export type AppState = {
   data: Response;
   error: Error;
   loading: boolean;
+  searchWord: string;
+  filter: IFilter;
 };
 
 export interface IFilter {

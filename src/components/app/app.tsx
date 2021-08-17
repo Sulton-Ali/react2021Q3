@@ -5,6 +5,7 @@ import './app.scss';
 import {NewsApiService} from '../../services/newsApiService/newsApiService';
 import {NewsCardWrapper} from '../newsCard/newsCard';
 import {AppState, IFilter} from '../../models/stateModels';
+import Pagination from '../pagination/pagination';
 
 export default class App extends Component {
   state: AppState = {
@@ -19,6 +20,13 @@ export default class App extends Component {
       message: '',
     },
     loading: false,
+    searchWord: '',
+    filter: {
+      language: '',
+      sortType: '',
+      from: '',
+      to: '',
+    },
   };
 
   private newsApiService: NewsApiService = new NewsApiService();
@@ -30,9 +38,38 @@ export default class App extends Component {
     }
     this.setState({
       loading: true,
+      searchWord: value,
+      filter,
     });
     this.newsApiService
-      .getNews(value, filter)
+      .getNews(value, {filter})
+      .then((res) => res.json())
+      .then((data) => {
+        if (data?.status === 'ok') {
+          this.setState({
+            data: data,
+            error: {},
+            loading: false,
+          });
+        } else {
+          this.setState({
+            articles: [],
+            error: data,
+            loading: false,
+          });
+        }
+      });
+  };
+
+  onPageChange = (value: number): void => {
+    this.setState({
+      loading: true,
+    });
+    this.newsApiService
+      .getNews(this.state.searchWord, {
+        filter: this.state.filter,
+        page: value,
+      })
       .then((res) => res.json())
       .then((data) => {
         if (data?.status === 'ok') {
@@ -64,6 +101,13 @@ export default class App extends Component {
           error={this.state.error}
           loading={this.state.loading}
         />
+        {this.state.data.totalResults > 0 && (
+          <Pagination
+            totalResults={this.state.data.totalResults}
+            perPage={20}
+            onPageChange={this.onPageChange}
+          />
+        )}
       </div>
     );
   }

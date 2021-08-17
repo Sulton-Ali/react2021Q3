@@ -12,6 +12,16 @@
   box-shadow: 0 5px 20px 5px rgba($color: #cccccc, $alpha: 1.0);
   border-radius: 0 0 10px 10px;
 
+  @media (max-width: 1024px) {
+    padding: 10px;
+    align-items: flex-end;
+  }
+
+  @media (max-width: 767px) {
+    padding-top: 60px;
+    align-items: center;
+  }
+
   &__logo {
     position: absolute;
     left: 40px;
@@ -24,12 +34,36 @@
       line-height: 50px;
       vertical-align: middle;
     }
+
+    @media (max-width: 1024px) {
+      left: 10px;
+    }
+  }
+
+  &__input {
+    position: relative;
+    @media (max-width: 479px) {
+      margin: 10px 0;
+    }
+  }
+
+  &__buttons {
+    display: flex;
+    align-items: center;
+    @media (max-width: 479px) {
+      margin: 10px 0;
+    }
   }
 
   &__content {
     position: relative;
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
+
+    @media (max-width: 479px) {
+      justify-content: center;
+    }
   }
 
   &__filter {
@@ -42,8 +76,6 @@
 
   &__icon {
     position: absolute;
-    width: 20px;
-    height: 20px;
     top: 6px;
     left: 8px;
 
