@@ -21,6 +21,7 @@ export default class App extends Component {
     },
     loading: false,
     searchWord: '',
+    perPage: '',
     filter: {
       language: '',
       sortType: '',
@@ -42,7 +43,7 @@ export default class App extends Component {
       filter,
     });
     this.newsApiService
-      .getNews(value, {filter})
+      .getNews(value, {filter, perPage: Number(this.state.perPage)})
       .then((res) => res.json())
       .then((data) => {
         if (data?.status === 'ok') {
@@ -62,6 +63,9 @@ export default class App extends Component {
   };
 
   onPageChange = (value: number): void => {
+    if (!this.state.searchWord) {
+      return;
+    }
     this.setState({
       loading: true,
     });
@@ -88,6 +92,41 @@ export default class App extends Component {
       });
   };
 
+  onPerPageChange = (perPageCount: string): void => {
+    if (!this.state.searchWord) {
+      this.setState({
+        perPage: perPageCount,
+      });
+      return;
+    }
+    this.setState({
+      perPage: perPageCount,
+      loading: true,
+    });
+    this.newsApiService
+      .getNews(this.state.searchWord, {
+        filter: this.state.filter,
+        page: 1,
+        perPage: Number(perPageCount),
+      })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data?.status === 'ok') {
+          this.setState({
+            data: data,
+            error: {},
+            loading: false,
+          });
+        } else {
+          this.setState({
+            articles: [],
+            error: data,
+            loading: false,
+          });
+        }
+      });
+  };
+
   render(): JSX.Element {
     return (
       <div className="app">
@@ -95,6 +134,7 @@ export default class App extends Component {
           buttonText="Search"
           placeholder="Enter search text"
           onSearch={this.onSearch}
+          onPerPageChange={(value: string) => this.onPerPageChange(value)}
         />
         <NewsCardWrapper
           data={this.state.data}
@@ -104,7 +144,7 @@ export default class App extends Component {
         {this.state.data.totalResults > 0 && (
           <Pagination
             totalResults={this.state.data.totalResults}
-            perPage={20}
+            perPage={Number(this.state.perPage)}
             onPageChange={this.onPageChange}
           />
         )}

@@ -1,4 +1,3 @@
-import {IFilter} from '../../models/stateModels';
 import {languages} from '../../helpers/constants';
 import {NewParams} from '../../models/newsModels';
 
@@ -26,6 +25,9 @@ export class NewsApiService {
     }
     if (params.page) {
       filterQuery += `&page=${params.page}`;
+    }
+    if (params.perPage) {
+      filterQuery += `&pageSize=${params.perPage}`;
     }
     if (filterQuery) {
       return fetch(

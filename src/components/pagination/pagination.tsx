@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 
 import './pagination.scss';
-import {Validator} from '../../helpers/validator';
 
 export type PaginationProps = {
   totalResults: number;
@@ -9,12 +8,9 @@ export type PaginationProps = {
   onPageChange: (value: number) => void;
 };
 
-function Pagination(props: PaginationProps) {
+function Pagination(props: PaginationProps): JSX.Element | null {
   const [page, setPage] = useState<number>(1);
-  const [pagesCount, setPagesCount] = useState<number>(
-    Math.floor(props.totalResults / props.perPage) + 1,
-  );
-  console.log(props, pagesCount);
+  const pagesCount = Math.floor(props.totalResults / props.perPage) + 1;
   const setPageCount = (value: number): void => {
     setPage(value);
     props.onPageChange(value);
@@ -27,24 +23,42 @@ function Pagination(props: PaginationProps) {
   return (
     <div className="pagination">
       <div className="pagination__content">
-        <div className="pagination__start" onClick={() => setPageCount(1)}>
+        <div
+          className="pagination__start"
+          onClick={() => {
+            if (page > 1) {
+              setPageCount(1);
+            }
+          }}>
           &#10094;&#10094;
         </div>
         <div
           className="pagination__prev"
-          onClick={() => setPageCount(Math.max(page - 1, 1))}>
+          onClick={() => {
+            if (page > 1) {
+              setPageCount(Math.max(page - 1, 1));
+            }
+          }}>
           &#10094;
         </div>
         <div className="pagination__page">{page}</div>
         <div className="pagination__pages-count">{pagesCount}</div>
         <div
           className="pagination__next"
-          onClick={() => setPageCount(Math.min(page + 1, pagesCount))}>
+          onClick={() => {
+            if (page < pagesCount) {
+              setPageCount(Math.min(page + 1, pagesCount));
+            }
+          }}>
           &#10095;
         </div>
         <div
           className="pagination__end"
-          onClick={() => setPageCount(pagesCount)}>
+          onClick={() => {
+            if (page < pagesCount) {
+              setPageCount(pagesCount);
+            }
+          }}>
           &#10095;&#10095;
         </div>
       </div>

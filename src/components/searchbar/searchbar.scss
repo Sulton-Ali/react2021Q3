@@ -55,6 +55,11 @@
     }
   }
 
+  &__per-page {
+    padding: 6px 12px;
+    border-radius: 20px;
+  }
+
   &__content {
     position: relative;
     display: flex;
@@ -91,5 +96,15 @@
 
   .input {
     padding-left: 35px;
+    height: 40px;
+  }
+
+  .search-button,
+  .filter-button {
+    height: 40px;
+  }
+
+  .search-button {
+    margin-right: 10px;
   }
 }

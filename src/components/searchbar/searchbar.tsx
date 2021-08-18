@@ -4,7 +4,7 @@ import Lottie from 'react-lottie-player';
 import DateElement from '../dateElement/dateElement';
 import DropdownElement from '../dropdown/dropdownElement';
 import {IFilter} from '../../models/stateModels';
-import {languages, sortBy} from '../../helpers/constants';
+import {languages, perPageList, sortBy} from '../../helpers/constants';
 
 import newsLottie from '../../assets/lotties/news.json';
 import filterLottie from '../../assets/lotties/filter.json';
@@ -16,6 +16,7 @@ interface ISearchbarProps {
   buttonText: string;
   placeholder?: string;
   onSearch: (value: string, filter: IFilter) => void;
+  onPerPageChange: (value: string) => void;
 }
 
 const SearchBar = (props: ISearchbarProps): JSX.Element => {
@@ -25,6 +26,7 @@ const SearchBar = (props: ISearchbarProps): JSX.Element => {
   const [sortType, setSortType] = useState<string>('');
   const [from, setFrom] = useState<string>('');
   const [to, setTo] = useState<string>('');
+  const [perPage, setPerPage] = useState<string>('');
 
   const openStyles = {
     height: 'auto',
@@ -47,12 +49,12 @@ const SearchBar = (props: ISearchbarProps): JSX.Element => {
     };
   };
 
-  const resetFilter = () => {
-    setLang('');
-    setSortType('');
-    setFrom('');
-    setTo('');
-  };
+  // const resetFilter = () => {
+  //   setLang('');
+  //   setSortType('');
+  //   setFrom('');
+  //   setTo('');
+  // };
 
   return (
     <div className="searchbar">
@@ -103,13 +105,23 @@ const SearchBar = (props: ISearchbarProps): JSX.Element => {
         <div className="searchbar__buttons">
           <button
             type="button"
-            className="btn"
+            className="btn search-button"
             onClick={() => {
               const filterObj = getFilterObj();
               props.onSearch(searchValue, filterObj);
             }}>
             {props.buttonText}
           </button>
+          <DropdownElement
+            items={perPageList}
+            placeholder="news in page"
+            label=""
+            value={perPage}
+            changeHandler={(value) => {
+              setPerPage(value);
+              props.onPerPageChange(value);
+            }}
+          />
           <button
             type="button"
             className={`btn filter-button ${openFilter ? 'btn--active' : ''}`}
@@ -119,8 +131,8 @@ const SearchBar = (props: ISearchbarProps): JSX.Element => {
               play
               animationData={filterLottie}
               style={{
-                width: 15,
-                height: 15,
+                width: 24,
+                height: 24,
                 alignSelf: 'center',
               }}
             />

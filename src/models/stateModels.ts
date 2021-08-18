@@ -5,6 +5,7 @@ export type AppState = {
   error: Error;
   loading: boolean;
   searchWord: string;
+  perPage: string;
   filter: IFilter;
 };
 
