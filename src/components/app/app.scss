@@ -4,13 +4,22 @@
   border-radius: 20px;
   padding: 8px 16px;
   cursor: pointer;
+
+  svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  &--active {
+    background-color: gray;
+  }
 }
 
 .input {
   padding: 8px 16px;
   border-radius: 20px;
   outline: none;
-  border-color: 2px solid transparent;
+  border: 2px solid transparent;
 
   &:focus {
     border: 2px solid teal;
@@ -18,9 +27,11 @@
 }
 
 .app {
-  min-width: 100vw;
   min-height: 100vh;
-  background: linear-gradient(to right, gray, lightgray);
+  background-color: aliceblue;
+  font-family: Roboto, Tahoma, sans-serif;
+  display: flex;
+  flex-direction: column;
 }
 
 .cards {

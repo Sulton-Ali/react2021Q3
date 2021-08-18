@@ -1,5 +1,3 @@
-import {User} from '../models/stateModels';
-
 export class Validator {
   static textValidator(value: string | boolean): boolean {
     const regex = /^[a-zA-Zа-яА-Я]*$/;
@@ -10,7 +8,7 @@ export class Validator {
 
   static dateValidator(value: string | boolean): boolean {
     const valueDate = new Date(String(value));
-    if (valueDate.getTime() > Date.now()) {
+    if (valueDate.getTime() >= Date.now()) {
       return false;
     }
     if (!value) {
@@ -19,9 +17,10 @@ export class Validator {
     return true;
   }
 
-  static userValidator(user: User): boolean {
-    return Boolean(
-      user.firstName && user.lastName && user.dateOfBirth && user.gender,
-    );
+  static numberValidator(value: string): boolean {
+    const regex = /^[0-9]*$/;
+
+    const valid = Boolean(value.match(regex));
+    return valid;
   }
 }

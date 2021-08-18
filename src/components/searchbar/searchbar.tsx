@@ -1,37 +1,177 @@
-import React from 'react';
+import React, {useState} from 'react';
+import {Spring, animated} from 'react-spring';
+import Lottie from 'react-lottie-player';
+import DateElement from '../dateElement/dateElement';
+import DropdownElement from '../dropdown/dropdownElement';
+import {IFilter} from '../../models/stateModels';
+import {languages, perPageList, sortBy} from '../../helpers/constants';
+
+import newsLottie from '../../assets/lotties/news.json';
+import filterLottie from '../../assets/lotties/filter.json';
+import searchLottie from '../../assets/lotties/search.json';
 
 import './searchbar.scss';
 
 interface ISearchbarProps {
   buttonText: string;
   placeholder?: string;
+  onSearch: (value: string, filter: IFilter) => void;
+  onPerPageChange: (value: string) => void;
 }
 
 const SearchBar = (props: ISearchbarProps): JSX.Element => {
+  const [searchValue, setSearchValue] = useState<string>('');
+  const [openFilter, setOpenFilter] = useState<boolean>(false);
+  const [lang, setLang] = useState<string>('');
+  const [sortType, setSortType] = useState<string>('');
+  const [from, setFrom] = useState<string>('');
+  const [to, setTo] = useState<string>('');
+  const [perPage, setPerPage] = useState<string>('');
+
+  const openStyles = {
+    height: 'auto',
+    padding: 10,
+    opacity: 1,
+  };
+
+  const closedStyles = {
+    height: 0,
+    padding: 0,
+    opacity: 0,
+  };
+
+  const getFilterObj = () => {
+    return {
+      language: lang,
+      sortType: sortType,
+      from,
+      to,
+    };
+  };
+
+  // const resetFilter = () => {
+  //   setLang('');
+  //   setSortType('');
+  //   setFrom('');
+  //   setTo('');
+  // };
+
   return (
     <div className="searchbar">
-      <div className="searchbar__content">
-        <div className="searchbar__icon">
-          <svg
-            fill="#000000"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            width="24px"
-            height="24px">
-            <path d="M 9 2 C 5.1458514 2 2 5.1458514 2 9 C 2 12.854149 5.1458514 16 9 16 C 10.747998 16 12.345009 15.348024 13.574219 14.28125 L 14 14.707031 L 14 16 L 20 22 L 22 20 L 16 14 L 14.707031 14 L 14.28125 13.574219 C 15.348024 12.345009 16 10.747998 16 9 C 16 5.1458514 12.854149 2 9 2 z M 9 4 C 11.773268 4 14 6.2267316 14 9 C 14 11.773268 11.773268 14 9 14 C 6.2267316 14 4 11.773268 4 9 C 4 6.2267316 6.2267316 4 9 4 z" />
-          </svg>
-        </div>
-        <input
-          className="input"
-          type="text"
-          name="search"
-          id="search"
-          placeholder={props.placeholder}
+      <div className="searchbar__logo">
+        <Lottie
+          loop
+          play
+          animationData={newsLottie}
+          style={{
+            width: 100,
+            height: 50,
+            alignSelf: 'center',
+          }}
+          className="news-lottie"
         />
-        <button type="button" className="btn">
-          {props.buttonText}
-        </button>
+        <h1 className="searchbar__logo-text">News</h1>
       </div>
+      <div className="searchbar__content">
+        <div className="searchbar__input">
+          <div className="searchbar__icon">
+            <Lottie
+              loop
+              play
+              animationData={searchLottie}
+              style={{
+                width: 25,
+                height: 25,
+                alignSelf: 'center',
+              }}
+            />
+          </div>
+          <input
+            className="input"
+            type="text"
+            name="search"
+            id="search"
+            placeholder={props.placeholder}
+            value={searchValue}
+            onChange={(evt) => setSearchValue(evt.target.value)}
+            onKeyPress={(evt) => {
+              if (evt.key.toUpperCase() === 'ENTER') {
+                const filterObj = getFilterObj();
+                props.onSearch(searchValue, filterObj);
+              }
+            }}
+          />
+        </div>
+        <div className="searchbar__buttons">
+          <button
+            type="button"
+            className="btn search-button"
+            onClick={() => {
+              const filterObj = getFilterObj();
+              props.onSearch(searchValue, filterObj);
+            }}>
+            {props.buttonText}
+          </button>
+          <DropdownElement
+            items={perPageList}
+            placeholder="news in page"
+            label=""
+            value={perPage}
+            changeHandler={(value) => {
+              setPerPage(value);
+              props.onPerPageChange(value);
+            }}
+          />
+          <button
+            type="button"
+            className={`btn filter-button ${openFilter ? 'btn--active' : ''}`}
+            onClick={() => setOpenFilter(!openFilter)}>
+            <Lottie
+              loop
+              play
+              animationData={filterLottie}
+              style={{
+                width: 24,
+                height: 24,
+                alignSelf: 'center',
+              }}
+            />
+          </button>
+        </div>
+      </div>
+
+      <Spring from={openStyles} to={openFilter ? openStyles : closedStyles}>
+        {(style) => (
+          <animated.div style={style} className="searchbar__filter">
+            <DropdownElement
+              items={languages}
+              placeholder="Choose language"
+              label="language"
+              value={lang}
+              changeHandler={(value) => setLang(value)}
+            />
+            <DropdownElement
+              items={sortBy}
+              placeholder="Choose sort type"
+              label="sort by"
+              value={sortType}
+              changeHandler={(value) => setSortType(value)}
+            />
+            <DateElement
+              label="from"
+              value={from}
+              placeholder="Choose from date"
+              changeHandler={(value) => setFrom(value)}
+            />
+            <DateElement
+              label="to"
+              value={to}
+              placeholder="Choose to date"
+              changeHandler={(value) => setTo(value)}
+            />
+          </animated.div>
+        )}
+      </Spring>
     </div>
   );
 };
