@@ -1,3 +1,4 @@
+@import '../../styles/mixins';
 .btn {
   border: none;
   outline: none;
@@ -32,6 +33,11 @@
   font-family: Roboto, Tahoma, sans-serif;
   display: flex;
   flex-direction: column;
+
+  &-main {
+    flex-grow: 1;
+    display: flex;
+  }
 }
 
 .cards {
@@ -49,4 +55,35 @@
   left: 0;
   right: 0;
   background: rgba(#000000, 0.4);
+}
+
+.navigation {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+
+  &__list {
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding: 0 20px;
+    @include secondaryFont();
+
+    a {
+      text-decoration: none;
+      color: white;
+    }
+
+    &--active {
+      border-bottom: 2px solid white;
+    }
+  }
 }
