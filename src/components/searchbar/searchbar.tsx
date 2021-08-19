@@ -6,7 +6,6 @@ import DropdownElement from '../dropdown/dropdownElement';
 import {IFilter} from '../../models/stateModels';
 import {languages, perPageList, sortBy} from '../../helpers/constants';
 
-import newsLottie from '../../assets/lotties/news.json';
 import filterLottie from '../../assets/lotties/filter.json';
 import searchLottie from '../../assets/lotties/search.json';
 
@@ -22,6 +21,7 @@ interface ISearchbarProps {
 const SearchBar = (props: ISearchbarProps): JSX.Element => {
   const [searchValue, setSearchValue] = useState<string>('');
   const [openFilter, setOpenFilter] = useState<boolean>(false);
+  const [openSearch, setOpenSearch] = useState<boolean>(false);
   const [lang, setLang] = useState<string>('');
   const [sortType, setSortType] = useState<string>('');
   const [from, setFrom] = useState<string>('');
@@ -49,29 +49,20 @@ const SearchBar = (props: ISearchbarProps): JSX.Element => {
     };
   };
 
-  // const resetFilter = () => {
-  //   setLang('');
-  //   setSortType('');
-  //   setFrom('');
-  //   setTo('');
-  // };
-
   return (
-    <div className="searchbar">
-      <div className="searchbar__logo">
-        <Lottie
-          loop
-          play
-          animationData={newsLottie}
-          style={{
-            width: 100,
-            height: 50,
-            alignSelf: 'center',
-          }}
-          className="news-lottie"
-        />
-        <h1 className="searchbar__logo-text">News</h1>
-      </div>
+    <aside className={`searchbar ${openSearch ? '' : 'searchbar--hide'}`}>
+      <button
+        className="searchbar__toggle"
+        onClick={() => setOpenSearch(!openSearch)}>
+        <span className="searchbar__toggle-text">Searchbar</span>
+        <svg
+          height="512pt"
+          viewBox="0 0 512 512"
+          width="512pt"
+          xmlns="http://www.w3.org/2000/svg">
+          <path d="m256 512c-68.378906 0-132.667969-26.628906-181.019531-74.980469-48.351563-48.351562-74.980469-112.640625-74.980469-181.019531s26.628906-132.667969 74.980469-181.019531c48.351562-48.351563 112.640625-74.980469 181.019531-74.980469s132.667969 26.628906 181.019531 74.980469c48.351563 48.351562 74.980469 112.640625 74.980469 181.019531s-26.628906 132.667969-74.980469 181.019531c-48.351562 48.351563-112.640625 74.980469-181.019531 74.980469zm0-472c-119.101562 0-216 96.898438-216 216s96.898438 216 216 216 216-96.898438 216-216-96.898438-216-216-216zm104.285156 216-138.285156-138.285156-28.285156 28.285156 110 110-110 110 28.285156 28.285156zm0 0" />
+        </svg>
+      </button>
       <div className="searchbar__content">
         <div className="searchbar__input">
           <div className="searchbar__icon">
@@ -172,7 +163,7 @@ const SearchBar = (props: ISearchbarProps): JSX.Element => {
           </animated.div>
         )}
       </Spring>
-    </div>
+    </aside>
   );
 };
 

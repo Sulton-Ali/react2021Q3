@@ -26,7 +26,8 @@
 }
 
 .news-card {
-  width: 320px;
+  width: 90%;
+  max-width: 320px;
   display: flex;
   flex-direction: column;
   background-color: beige;

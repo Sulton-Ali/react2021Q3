@@ -1,42 +1,57 @@
 .searchbar {
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 280px;
+  max-width: 280px;
   padding: 10px 0;
-  width: 100%;
-  min-height: 60px;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   flex-direction: column;
   flex-wrap: wrap;
   background: cornflowerblue;
-  box-shadow: 0 5px 20px 5px rgba($color: #cccccc, $alpha: 1.0);
-  border-radius: 0 0 10px 10px;
+  transition: all 0.6s linear;
+  z-index: 100;
+  border-radius: 0 10px 10px 10px;
+  transform: translate(0%, 0);
 
-  @media (max-width: 1024px) {
-    padding: 10px;
-    align-items: flex-end;
-  }
-
-  @media (max-width: 767px) {
-    padding-top: 60px;
-    align-items: center;
-  }
-
-  &__logo {
-    position: absolute;
-    left: 40px;
-    top: 5px;
-    display: flex;
-
-    &-text {
-      margin-left: 10px;
-      color: white;
-      line-height: 50px;
-      vertical-align: middle;
+  &--hide {
+    transform: translate(-100%, 0);
+    .searchbar__toggle {
+      svg {
+        transform: rotate(90deg);
+      }
     }
+  }
 
-    @media (max-width: 1024px) {
-      left: 10px;
+  &__toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 60px;
+    right: -80px;
+    padding: 5px 10px;
+    color: white;
+    border: none;
+    outline: none;
+    z-index: 101;
+    cursor: pointer;
+    background-color: cornflowerblue;
+    border: 1px solid white;
+    border-radius: 5px;
+    transform: rotate(-90deg);
+
+    svg {
+      width: 15px;
+      height: 15px;
+      margin-left: 10px;
+      transform: rotate(-90deg);
+
+      path {
+        fill: white;
+      }
     }
   }
 
@@ -64,6 +79,7 @@
     position: relative;
     display: flex;
     align-items: center;
+    justify-content: center;
     flex-wrap: wrap;
 
     @media (max-width: 479px) {
@@ -76,7 +92,7 @@
     max-width: 1024px;
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: space-around;
   }
 
   &__icon {
