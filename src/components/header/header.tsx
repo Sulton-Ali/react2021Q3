@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import Lottie from 'react-lottie-player';
 import {NavLink} from 'react-router-dom';
 import newsLottie from '../../assets/lotties/news.json';

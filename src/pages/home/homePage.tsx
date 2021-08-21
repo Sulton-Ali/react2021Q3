@@ -6,6 +6,7 @@ import {NewsCardWrapper} from '../../components/newsCard/newsCard';
 import Pagination from '../../components/pagination/pagination';
 
 import './homePage.scss';
+import {Response} from '../../services/newsApiService/newsApiServiceTypes';
 
 class HomePage extends Component {
   state: AppState = {
@@ -32,6 +33,37 @@ class HomePage extends Component {
 
   private newsApiService: NewsApiService = new NewsApiService();
 
+  componentDidMount(): void {
+    this.setState({
+      loading: true,
+    });
+    this.newsApiService
+      .getTopHeadlines()
+      .then((response) => response.json())
+      .then((data) => this.saveResponseData(data))
+      .catch((error) => console.log(error));
+  }
+
+  saveResponseData = (data: Response): void => {
+    if (data?.status === 'ok') {
+      this.setState({
+        data: data,
+        error: {},
+        loading: false,
+      });
+    } else {
+      this.setState({
+        data: {
+          status: '',
+          totalResults: 0,
+          articles: [],
+        },
+        error: data,
+        loading: false,
+      });
+    }
+  };
+
   onSearch = (value: string, filter: IFilter): void => {
     if (!value.trim()) {
       alert('Search field is incorrect');
@@ -45,21 +77,8 @@ class HomePage extends Component {
     this.newsApiService
       .getNews(value, {filter, perPage: Number(this.state.perPage)})
       .then((res) => res.json())
-      .then((data) => {
-        if (data?.status === 'ok') {
-          this.setState({
-            data: data,
-            error: {},
-            loading: false,
-          });
-        } else {
-          this.setState({
-            articles: [],
-            error: data,
-            loading: false,
-          });
-        }
-      });
+      .then((data) => this.saveResponseData(data))
+      .catch((error) => console.log(error));
   };
 
   onPageChange = (value: number): void => {
@@ -76,21 +95,8 @@ class HomePage extends Component {
         perPage: Number(this.state.perPage),
       })
       .then((res) => res.json())
-      .then((data) => {
-        if (data?.status === 'ok') {
-          this.setState({
-            data: data,
-            error: {},
-            loading: false,
-          });
-        } else {
-          this.setState({
-            articles: [],
-            error: data,
-            loading: false,
-          });
-        }
-      });
+      .then((data) => this.saveResponseData(data))
+      .catch((error) => console.log(error));
   };
 
   onPerPageChange = (perPageCount: string): void => {
@@ -138,6 +144,10 @@ class HomePage extends Component {
           onPerPageChange={(value: string) => this.onPerPageChange(value)}
         />
         <div className="home-page__content">
+          <h2 className="home-page__title">
+            Search results by:{' '}
+            {this.state.searchWord ? this.state.searchWord : 'top headlines'}
+          </h2>
           <NewsCardWrapper
             data={this.state.data}
             error={this.state.error}

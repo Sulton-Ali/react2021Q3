@@ -36,4 +36,10 @@ export class NewsApiService {
     }
     return fetch(`${this.BASE_URL}?q=${title}&apiKey=${this.API_KEY}`);
   }
+
+  getTopHeadlines(): Promise<Response> {
+    return fetch(
+      `https://newsapi.org/v2/top-headlines?country=us&apiKey=${this.API_KEY}`,
+    );
+  }
 }

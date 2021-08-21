@@ -5,6 +5,7 @@ import {Route, Switch, useLocation} from 'react-router-dom';
 import Header from '../header/header';
 import HomePage from '../../pages/home/homePage';
 import About from '../../pages/about/about';
+import PageNotFound from '../../pages/404/404';
 import './app.scss';
 
 function App(): JSX.Element {
@@ -22,11 +23,14 @@ function App(): JSX.Element {
         {transitions((props, item) => (
           <animated.div className="page-wrapper" style={props}>
             <Switch location={item}>
+              <Route path="/about" exact>
+                <About />
+              </Route>
               <Route path="/" exact>
                 <HomePage />
               </Route>
-              <Route path="/about" exact>
-                <About />
+              <Route>
+                <PageNotFound />
               </Route>
             </Switch>
           </animated.div>
