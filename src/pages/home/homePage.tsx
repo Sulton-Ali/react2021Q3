@@ -153,7 +153,7 @@ class HomePage extends Component {
             error={this.state.error}
             loading={this.state.loading}
           />
-          {this.state.data.totalResults > 0 && (
+          {this.state.data.totalResults > 0 && !this.state.loading && (
             <Pagination
               totalResults={this.state.data.totalResults}
               perPage={Number(this.state.perPage) || 20}

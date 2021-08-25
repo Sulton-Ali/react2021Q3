@@ -5,6 +5,7 @@ import {Route, Switch, useLocation} from 'react-router-dom';
 import Header from '../header/header';
 import HomePage from '../../pages/home/homePage';
 import About from '../../pages/about/about';
+import NewsDetails from '../../pages/newsDetails/newsDetails';
 import PageNotFound from '../../pages/404/404';
 import './app.scss';
 
@@ -23,6 +24,9 @@ function App(): JSX.Element {
         {transitions((props, item) => (
           <animated.div className="page-wrapper" style={props}>
             <Switch location={item}>
+              <Route path="/details/:id/:source">
+                <NewsDetails />
+              </Route>
               <Route path="/about" exact>
                 <About />
               </Route>

@@ -6,6 +6,7 @@ import defaultImage from '../../assets/images/default_card_image.jpg';
 
 import './newsCard.scss';
 import loadingLottie from '../../assets/lotties/loading.json';
+import {Link} from 'react-router-dom';
 
 export function NewsCardWrapper(props: NewsCardWrapperProps): JSX.Element {
   const articles = props.data.articles;
@@ -77,9 +78,13 @@ export function NewsCard(props: NewsCardProps): JSX.Element {
           </div>
         </div>
         <div className="news-card__footer-right">
-          <a href={article.url} target="_blank" rel="noreferrer">
+          <Link
+            to={`/details/${article.title}/${
+              article.source.id ? article.source.id : article.source.name
+            }`}
+            rel="noreferrer">
             See fully
-          </a>
+          </Link>
         </div>
       </div>
     </div>

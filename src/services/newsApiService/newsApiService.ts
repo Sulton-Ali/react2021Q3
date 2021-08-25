@@ -42,4 +42,12 @@ export class NewsApiService {
       `https://newsapi.org/v2/top-headlines?country=us&apiKey=${this.API_KEY}`,
     );
   }
+
+  getNewsByTitle(title: string): Promise<Response> {
+    const encodedTitle = encodeURI(title);
+
+    return fetch(
+      `${this.BASE_URL}?qInTitle=${encodedTitle}&apiKey=${this.API_KEY}`,
+    );
+  }
 }

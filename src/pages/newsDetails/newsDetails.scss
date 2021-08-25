@@ -1,0 +1,42 @@
+@import '../../styles/mixins';
+.news-details {
+  width: 100%;
+  max-width: 1024px;
+  margin: 40px auto;
+  box-shadow: 0 0 10px 30px rgba($color: #ffffff, $alpha: 1);
+  &__wrapper {
+    width: 100%;
+  }
+
+  &__content {
+    padding: 0 20px;
+  }
+
+  &__image-wrapper {
+    border-radius: 10px;
+    overflow: hidden;
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &__title {
+    padding: 20px 10px;
+    @include primaryFont;
+    text-align: center;
+  }
+
+  &__description {
+    padding: 20px 10px;
+    @include secondaryFont;
+    text-align: justify;
+  }
+
+  &__footer {
+    padding: 0 20px 20px 20px;
+    display: flex;
+    justify-content: space-between;
+    @include secondaryFont;
+  }
+}
