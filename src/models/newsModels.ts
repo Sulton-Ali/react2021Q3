@@ -20,3 +20,21 @@ export type NewParams = {
 export type NewsCardProps = {
   article: Article;
 };
+
+export type NewsDetailsProps = {
+  // getNewsByTitle?: (value: string) => Promise<Response>;
+};
+
+export const initialArticle = {
+  source: {
+    id: '',
+    name: '',
+  },
+  author: '',
+  title: '',
+  description: '',
+  url: '',
+  urlToImage: '',
+  publishedAt: '',
+  content: '',
+};
