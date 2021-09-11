@@ -7,10 +7,13 @@ import defaultImage from '../../assets/images/default_card_image.jpg';
 import './newsCard.scss';
 import loadingLottie from '../../assets/lotties/loading.json';
 import {Link} from 'react-router-dom';
+import {useAppSelector} from '../../redux/hooks';
 
-export function NewsCardWrapper(props: NewsCardWrapperProps): JSX.Element {
-  const articles = props.data.articles;
-  const error = props.error;
+export function NewsCardWrapper(): JSX.Element {
+  const data = useAppSelector((state) => state.data);
+  const articles = data.articles;
+  const error = useAppSelector((state) => state.error);
+  const loading = useAppSelector((state) => state.loading.loading);
   let errorContent = null;
 
   if (error?.status) {
@@ -21,7 +24,7 @@ export function NewsCardWrapper(props: NewsCardWrapperProps): JSX.Element {
   return (
     <div className="news-card-wrapper">
       {errorContent && errorContent}
-      {props.loading && (
+      {loading && (
         <div className="news-card-wrapper__loading">
           <Lottie
             loop
@@ -35,7 +38,7 @@ export function NewsCardWrapper(props: NewsCardWrapperProps): JSX.Element {
           />
         </div>
       )}
-      {!errorContent && !props.loading && (
+      {!errorContent && !loading && (
         <div className="news-card-wrapper__body">
           {articles.map((article, idx) => (
             <NewsCard article={article} key={idx} />

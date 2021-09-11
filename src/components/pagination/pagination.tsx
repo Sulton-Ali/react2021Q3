@@ -1,4 +1,13 @@
 import React, {useState} from 'react';
+import {useAppDispatch, useAppSelector} from '../../redux/hooks';
+import {
+  setData,
+  initialState as initialData,
+} from '../../redux/reducers/dataSlice';
+import {setError} from '../../redux/reducers/errorSlice';
+import {setLoading} from '../../redux/reducers/loadingSlice';
+import {NewsApiService} from '../../services/newsApiService/newsApiService';
+import {Response} from '../../services/newsApiService/newsApiServiceTypes';
 
 import './pagination.scss';
 
@@ -8,12 +17,49 @@ export type PaginationProps = {
   onPageChange: (value: number) => void;
 };
 
-function Pagination(props: PaginationProps): JSX.Element | null {
+function Pagination(): JSX.Element | null {
   const [page, setPage] = useState<number>(1);
-  const pagesCount = Math.floor(props.totalResults / props.perPage) + 1;
+
+  const dispatch = useAppDispatch();
+  const totalResults = useAppSelector((state) => state.data.totalResults);
+  const filter = useAppSelector((state) => state.filter);
+  const perPage = useAppSelector((state) => state.perPage.perPage);
+  const searchWord = useAppSelector((state) => state.searchWord.searchWord);
+
+  const pagesCount = Math.floor(totalResults / Number(perPage)) + 1;
+
+  const newsApiService: NewsApiService = new NewsApiService();
+
+  const saveResponseData = (data: Response): void => {
+    if (data?.status === 'ok') {
+      dispatch(setData(data));
+      dispatch(setLoading(false));
+    } else {
+      dispatch(setData(initialData));
+      dispatch(setError(data));
+      dispatch(setLoading(false));
+    }
+  };
+
+  const onPageChange = (value: number): void => {
+    if (!searchWord) {
+      return;
+    }
+    dispatch(setLoading(true));
+    newsApiService
+      .getNews(searchWord, {
+        filter: filter,
+        page: value,
+        perPage: Number(perPage),
+      })
+      .then((res: any) => res.json())
+      .then((data: any) => saveResponseData(data))
+      .catch((error: any) => console.log(error));
+  };
+
   const setPageCount = (value: number): void => {
     setPage(value);
-    props.onPageChange(value);
+    onPageChange(value);
   };
 
   if (pagesCount <= 1) {
