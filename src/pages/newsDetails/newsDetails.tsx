@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useParams} from 'react-router-dom';
-import {initialArticle, NewsDetailsProps} from '../../models/newsModels';
+import {initialArticle} from '../../models/newsModels';
 import {NewsApiService} from '../../services/newsApiService/newsApiService';
 import {Article} from '../../services/newsApiService/newsApiServiceTypes';
 import {dateFormat} from '../../helpers/format';
@@ -8,9 +8,7 @@ import defaultImage from '../../assets/images/default_card_image.jpg';
 
 import './newsDetails.scss';
 
-export default function NewsDetails(
-  props: NewsDetailsProps,
-): JSX.Element | null {
+export default function NewsDetails(): JSX.Element | null {
   const [article, setArticle] = useState<Article>(initialArticle);
   const params = useParams<{id: string; source: string}>();
   const newsApiService = new NewsApiService();

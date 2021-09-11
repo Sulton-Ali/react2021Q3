@@ -10,12 +10,22 @@ import filterLottie from '../../assets/lotties/filter.json';
 import searchLottie from '../../assets/lotties/search.json';
 
 import './searchbar.scss';
+import {NewsApiService} from '../../services/newsApiService/newsApiService';
+import {useAppDispatch, useAppSelector} from '../../redux/hooks';
+import {
+  setData,
+  initialState as initialData,
+} from '../../redux/reducers/dataSlice';
+import {setLoading} from '../../redux/reducers/loadingSlice';
+import {setError} from '../../redux/reducers/errorSlice';
+import {setFilter} from '../../redux/reducers/filterSlice';
+import {setSearchWord} from '../../redux/reducers/searchWordSlice';
+import {setPerPage} from '../../redux/reducers/perPageSlice';
+import {Response} from '../../services/newsApiService/newsApiServiceTypes';
 
 interface ISearchbarProps {
   buttonText: string;
   placeholder?: string;
-  onSearch: (value: string, filter: IFilter) => void;
-  onPerPageChange: (value: string) => void;
 }
 
 const SearchBar = (props: ISearchbarProps): JSX.Element => {
@@ -26,7 +36,19 @@ const SearchBar = (props: ISearchbarProps): JSX.Element => {
   const [sortType, setSortType] = useState<string>('');
   const [from, setFrom] = useState<string>('');
   const [to, setTo] = useState<string>('');
-  const [perPage, setPerPage] = useState<string>('');
+  // const [perPage, setPerPage] = useState<string>('');
+
+  const perPageFromState: string = useAppSelector(
+    (state) => state.perPage.perPage,
+  );
+  const searchWord: string = useAppSelector(
+    (state) => state.searchWord.searchWord,
+  );
+  const perPage: string = useAppSelector((state) => state.perPage.perPage);
+  const filter = useAppSelector((state) => state.filter);
+
+  const newsApiService: NewsApiService = new NewsApiService();
+  const dispatch = useAppDispatch();
 
   const openStyles = {
     height: 'auto',
@@ -47,6 +69,51 @@ const SearchBar = (props: ISearchbarProps): JSX.Element => {
       from,
       to,
     };
+  };
+
+  const saveResponseData = (data: Response): void => {
+    if (data?.status === 'ok') {
+      dispatch(setData(data));
+      dispatch(setLoading(false));
+    } else {
+      dispatch(setData(initialData));
+      dispatch(setError(data));
+      dispatch(setLoading(false));
+    }
+  };
+
+  const onSearch = (value: string, filter: IFilter): void => {
+    if (!value.trim()) {
+      alert('Search field is incorrect');
+      return;
+    }
+
+    dispatch(setLoading(true));
+    dispatch(setSearchWord(value));
+    dispatch(setFilter(filter));
+
+    newsApiService
+      .getNews(value, {filter, perPage: Number(perPageFromState)})
+      .then((res: any) => res.json())
+      .then((data: any) => saveResponseData(data))
+      .catch((error) => console.log(error));
+  };
+
+  const onPerPageChange = (perPageCount: string): void => {
+    if (!searchWord) {
+      dispatch(setPerPage(perPageCount));
+      return;
+    }
+    dispatch(setLoading(true));
+    dispatch(setPerPage(perPageCount));
+    newsApiService
+      .getNews(searchWord, {
+        filter: filter,
+        page: 1,
+        perPage: Number(perPageCount),
+      })
+      .then((res) => res.json())
+      .then((data) => saveResponseData(data));
   };
 
   return (
@@ -88,7 +155,7 @@ const SearchBar = (props: ISearchbarProps): JSX.Element => {
             onKeyPress={(evt) => {
               if (evt.key.toUpperCase() === 'ENTER') {
                 const filterObj = getFilterObj();
-                props.onSearch(searchValue, filterObj);
+                onSearch(searchValue, filterObj);
               }
             }}
           />
@@ -99,7 +166,7 @@ const SearchBar = (props: ISearchbarProps): JSX.Element => {
             className="btn search-button"
             onClick={() => {
               const filterObj = getFilterObj();
-              props.onSearch(searchValue, filterObj);
+              onSearch(searchValue, filterObj);
             }}>
             {props.buttonText}
           </button>
@@ -110,7 +177,7 @@ const SearchBar = (props: ISearchbarProps): JSX.Element => {
             value={perPage}
             changeHandler={(value) => {
               setPerPage(value);
-              props.onPerPageChange(value);
+              onPerPageChange(value);
             }}
           />
           <button
